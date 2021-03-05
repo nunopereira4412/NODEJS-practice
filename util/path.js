@@ -5,6 +5,6 @@ const path = require('path');
 // filename   - which file the module is in
 
 // require.main REPLACES process.mainModule (deprecated)
-// require.main refers to mainmodule that started this app
+// require.main refers to main module that started this app
 
 module.exports = path.dirname(require.main.filename);
