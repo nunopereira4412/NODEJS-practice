@@ -1,0 +1,26 @@
+extends layouts/mainLayout.pug
+
+block styling
+    link(rel="stylesheet", href="/css/main.css")
+    link(rel="stylesheet", href="/css/product.css")
+
+block mainContent
+    main
+        if products.length > 0
+            .grid
+                each product of products
+                    article.card Product Item
+                        header.card__header
+                            h1.product__title #{product.title}   
+                        .card__image
+                            img(src="book.png", alt="A Book")
+                        .card__content
+                            h2.product__price $19.99
+                            p.product__description A very interesting book about so many even more interesting things!
+                        
+                        .card__actions
+                        button.btn Add to Cart
+        else 
+            h1 There are no products 
+
+        
