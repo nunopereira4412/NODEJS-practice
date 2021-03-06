@@ -2,8 +2,12 @@ extends layouts/mainLayout.pug
 
 block styling
     link(rel="stylesheet", href="/css/main.css")
-    link(rel="stylesheet", href="/css/product.css")
-    link(rel="stylesheet", href="/css/forms.css")
+
+    if formCSS
+        link(rel="stylesheet", href="/css/forms.css")
+        
+    if productCSS
+        link(rel="stylesheet", href="/css/product.css")
 
 block mainContent
     main

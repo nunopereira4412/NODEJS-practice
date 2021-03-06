@@ -2,11 +2,12 @@ extends layouts/mainLayout.pug
 
 block styling
     link(rel="stylesheet", href="/css/main.css")
-    link(rel="stylesheet", href="/css/product.css")
+    if productCSS
+        link(rel="stylesheet", href="/css/product.css")
 
 block mainContent
     main
-        if products.length > 0
+        if hasProducts
             .grid
                 each product of products
                     article.card Product Item

@@ -13,8 +13,8 @@ html(lang="en")
             nav.main-header__nav
                 ul.main-header__item-list
                     li.main-header__item
-                        a(href="/", class=(path === '/' ? "active" : "")) Shop
+                        a(href="/", class=(isShopActiveClass ? "active" : "")) Shop
                     li.main-header__item
-                        a(href="/admin/addProduct", class=(path === '/admin/addProduct' ? "active" : "")) Add Product
+                        a(href="/admin/addProduct", class=(isAddProductActiveClass ? "active" : "")) Add Product
 
         block mainContent
