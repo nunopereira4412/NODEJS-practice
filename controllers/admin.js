@@ -1,7 +1,7 @@
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
-    res.render("admin/addProduct", {
+    res.render("admin/editProduct", {
         pageTitle: "Add Product", 
         isAddProductActiveClass: true,
         productCSS: true,
