@@ -14,20 +14,31 @@ const getProductsFromFile = cb => {
 };
 
 module.exports = class Product {
-    constructor(title, imageURL, price, description) {
-        this.title = title;
-        this.imageURL = imageURL;
-        this.price = price;
+    constructor(id, title, imageURL, price, description) {
+        this.id          = id;
+        this.title       = title;
+        this.imageURL    = imageURL;
+        this.price       = price;
         this.description = description;
     }
 
     save() {
-        this.id = Math.random().toFixed(2).toString();
         getProductsFromFile(products => {
-            products.push(this);
-            fs.writeFile(pathProductsFile, JSON.stringify(products), err => {
-                console.log(err);
-            });
+            if(this.id) {
+                const productIndexFromCart = products.findIndex(p => p.id === this.id);
+                const updatedProducts = [...products];
+                updatedProducts[productIndexFromCart] = this;
+                fs.writeFile(pathProductsFile, JSON.stringify(updatedProducts), err => {
+                    if(err) console.log(err);
+                });
+            } 
+            else {
+                this.id = Math.random().toFixed(2).toString();
+                products.push(this);
+                fs.writeFile(pathProductsFile, JSON.stringify(products), err => {
+                    if(err) console.log(err);
+                });
+            }
         });
     }
 

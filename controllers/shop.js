@@ -14,7 +14,7 @@ exports.getProducts = (req, res, next) => {
             res.render('shop/productsList', {
                 products: products, 
                 pageTitle: "Products List", 
-                isShopActiveClass: true,
+                isProductsActiveClass: true,
                 hasProducts: products.length > 0,
                 productCSS: false
             });

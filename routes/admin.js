@@ -12,5 +12,11 @@ routes.get("/products", adminController.getProducts);
 // POST /admin/addProducts --> POST
 routes.post("/addProduct", adminController.postAddProduct);
 
+// /admin/editProducts --> GET
+routes.get("/editProduct/:productId", adminController.getEditProduct);
+
+// /admin/editProducts --> POST
+routes.post("/editProduct", adminController.postEditProduct);
+
 exports.routes = routes;
 

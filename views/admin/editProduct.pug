@@ -2,3 +2,28 @@ extends ../layouts/mainLayout.pug
 
 block styling
     link(rel="stylesheet", href="/css/main.css")
+
+    if formCSS
+        link(rel="stylesheet", href="/css/forms.css")
+        
+    if productCSS
+        link(rel="stylesheet", href="/css/product.css")
+
+block mainContent
+    main
+        form.product-form(action="/admin/editProduct" method="POST")
+            .form-control
+                label(for="title") Title
+                input(type="text" name="title" id="title" value=(editing ? product.title : ""))
+            .form-control
+                label(for="imageURL") Image URL
+                input(type="text" name="imageURL" id="imageURL" value=(editing ? product.imageURL : ""))
+            .form-control
+                label(for="price") Price
+                input(type="text" name="price" id="price", step="0.01" value=(editing ? product.price : ""))
+            .form-control
+                label(for="description") Description
+                textarea(type="text" name="description" id="description" rows="5") #{editing ? product.description : ""}
+        
+            input(type="hidden" name="productId" value=product.id)
+            button.btn(type="submit") #{editing ? "Save Changes" : "Add Product"}

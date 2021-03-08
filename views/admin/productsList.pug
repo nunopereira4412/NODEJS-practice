@@ -19,7 +19,7 @@ block mainContent
                             p.product__description #{product.description}
 
                         .card__actions
-                            a.btn(href="/admin/editProduct") Edit
+                            a.btn(href="/admin/editProduct/" + product.id + "?editMode=true") Edit
                             form.product-form(action="/admin/deleteProduct" method="POST")
                                 .form-control
                                     button.btn(type="submit") Delete
