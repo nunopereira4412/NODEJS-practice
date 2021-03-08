@@ -5,16 +5,48 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         meta(http-equiv="X-UA-Compatible", content="ie=edge")
         title #{pageTitle}
+        link(rel="stylesheet" href="/css/main.css")
 
         block styling
 
     body
+        .backdrop
         header.main-header
+            button(id="side-menu-toggle") Menu
             nav.main-header__nav
                 ul.main-header__item-list
                     li.main-header__item
                         a(href="/", class=(isShopActiveClass ? "active" : "")) Shop
                     li.main-header__item
+                        a(href="/products", class=(isProductsActiveClass ? "active" : "")) Products
+                    li.main-header__item
+                        a(href="/cart", class=(isCartActiveClass ? "active" : "")) Cart
+                    li.main-header__item
+                        a(href="/orders", class=(isOrderActiveClass ? "active" : "")) Orders
+                    li.main-header__item
+                        a(href="/checkout", class=(isCheckoutActiveClass ? "active" : "")) Checkout
+                    li.main-header__item
+                        a(href="/admin/products", class=(isAdminProductsActiveClass ? "active" : "")) Admin Products
+                    li.main-header__item
                         a(href="/admin/addProduct", class=(isAddProductActiveClass ? "active" : "")) Add Product
+        
+        nav.mobile-nav
+            ul.mobile-nav__item-list
+                li.mobile-nav__item
+                    a(href="/", class=(isShopActiveClass ? "active" : "")) Shop
+                li.mobile-nav__item
+                    a(href="/products", class=(isProductsActiveClass ? "active" : "")) Products
+                li.mobile-nav__item
+                    a(href="/cart", class=(isCartActiveClass ? "active" : "")) Cart
+                li.mobile-nav__item
+                    a(href="/orders", class=(isOrderActiveClass ? "active" : "")) Orders
+                li.mobile-nav__item
+                    a(href="/checkout", class=(isCheckoutActiveClass ? "active" : "")) Checkout
+                li.mobile-nav__item
+                    a(href="/admin/products", class=(isAdminProductsActiveClass ? "active" : "")) Admin Products
+                li.mobile-nav__item
+                    a(href="/admin/addProduct", class=(isAddProductActiveClass ? "active" : "")) Add Product
 
         block mainContent
+
+        script(src="/js/main.js")

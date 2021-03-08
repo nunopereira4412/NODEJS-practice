@@ -1,0 +1,29 @@
+extends ../layouts/mainLayout.pug
+
+block styling
+    if productCSS
+        link(rel="stylesheet", href="/css/product.css")
+
+block mainContent
+    main
+        if hasProducts
+            .grid
+                each product of products
+                    article.card Product Item
+                        header.card__header
+                            h1.product__title #{product.title}   
+                        .card__image
+                            img(src=product.imageURL, alt=product.title)
+                        .card__content
+                            h2.product__price #{product.price}
+                            p.product__description #{product.description}
+                        
+                        .card__actions
+                            form.product-form(action="/addToCart" method="POST")
+                                a.btn(href="/products/" + product.id) Details
+                                .form-control
+                                    button.btn(type="submit", name="productId", value=product.id) Add to Cart
+        else 
+            h1 There are no products 
+
+        

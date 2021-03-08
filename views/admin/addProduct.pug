@@ -1,4 +1,4 @@
-extends layouts/mainLayout.pug
+extends ../layouts/mainLayout.pug
 
 block styling
     link(rel="stylesheet", href="/css/main.css")
@@ -15,4 +15,13 @@ block mainContent
             .form-control
                 label(for="title") Title
                 input(type="text" name="title" id="title")
+            .form-control
+                label(for="imageURL") Image URL
+                input(type="text" name="imageURL" id="imageURL")
+            .form-control
+                label(for="price") Price
+                input(type="text" name="price" id="price", step="0.01")
+            .form-control
+                label(for="description") Description
+                textarea(type="text" name="description" id="description" rows="5")
             button.btn(type="submit") Add Product
