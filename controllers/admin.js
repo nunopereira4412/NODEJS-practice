@@ -13,11 +13,13 @@ exports.getAddProduct = (req, res, next) => {
 exports.postAddProduct = (req, res, next) => {
     const title = req.body.title;
     const imageURL = req.body.imageURL;
-    const price = req.body.price;
+    const price = Number.parseFloat(req.body.price);
     const description = req.body.description;
     const product = new Product(null, title, imageURL, price, description);
+
+    //this can be in a callback for the redirect to happen after
     product.save();
-    res.redirect("/");
+    res.redirect("/admin/addProduct");
 }; 
 
 exports.getEditProduct = (req, res, next) => {
@@ -45,12 +47,20 @@ exports.postEditProduct = (req, res, next) => {
     const id          = req.body.productId;
     const title       = req.body.title;
     const imageURL    = req.body.imageURL;
-    const price       = req.body.price;
+    const price       = Number.parseFloat(req.body.price);
     const description = req.body.description;
     const product     = new Product(id, title, imageURL, price, description);
     product.save();
-    res.redirect("/"); 
+    res.redirect("/admin/products"); 
 }   
+
+exports.postDeleteProduct = (req, res, next) => {
+    const productId = req.body.productId;
+
+    //this can be in a callback for the redirect to happen after
+    Product.deleteProductById(productId);
+    res.redirect("/admin/products");
+}
 
 exports.getProducts = (req, res, next) => {
     Product.getProducts(products => {

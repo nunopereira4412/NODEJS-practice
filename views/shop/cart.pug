@@ -1,2 +1,30 @@
 extends ../layouts/mainLayout.pug
 
+//- block styling
+//-     if productCSS
+//-         link(rel="stylesheet", href="/css/product.css")
+
+//- block mainContent
+//-     main
+//-         if hasProducts
+//-             .grid
+//-                 each product of products
+//-                     article.card Product Item
+//-                         header.card__header
+//-                             h1.product__title #{product.title}   
+//-                         .card__image
+//-                             img(src=product.imageURL, alt=product.title)
+//-                         .card__content
+//-                             h2.product__price #{product.price}
+//-                             p.product__description #{product.description}
+
+//-                         .card__actions
+//-                             a.btn(href="/admin/editProduct/" + product.id + "?editMode=true") Edit
+//-                             form.product-form(action="/admin/deleteProduct" method="POST")
+//-                                 .form-control
+//-                                     input(type="hidden" name="productId" value=product.id)
+//-                                     button.btn(type="submit") Delete
+//-         else 
+//-             h1 There are no products 
+
+        

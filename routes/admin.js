@@ -18,5 +18,7 @@ routes.get("/editProduct/:productId", adminController.getEditProduct);
 // /admin/editProducts --> POST
 routes.post("/editProduct", adminController.postEditProduct);
 
+routes.post("/deleteProduct", adminController.postDeleteProduct);
+
 exports.routes = routes;
 

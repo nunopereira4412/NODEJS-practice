@@ -1,1 +1,1 @@
-{"products":[{"id":"0.61","quantity":11},{"id":"0.80","quantity":1}],"totalPrice":"0sdfsdfsdfsdfsdfsdfsdf3333sdfsdfsdf1"}
+{"products":[],"totalPrice":0}

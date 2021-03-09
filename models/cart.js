@@ -1,4 +1,5 @@
 const fs      = require('fs');
+const { update } = require('lodash');
 const path    = require('path');
 const rootDir = require('../util/path');
 
@@ -49,8 +50,28 @@ module.exports = class Cart {
             else
                 cart.products.push(updatedProduct);
             cart.totalPrice = newTotalPrice;
-
+               
             fs.writeFile(pathCartFile, JSON.stringify(cart), err => {
+                if(err) console.log(err);
+            });
+        });
+    }
+
+    static deleteProduct(productId, productPrice) {
+        fs.readFile(pathCartFile, (err, fileContent) => {
+
+            if(err) return;
+
+            let updatedCart = {...JSON.parse(fileContent)};
+            console.log("1  ", updatedCart);
+            let pToDelete = updatedCart.products.find(p => p.id === productId);
+            let pToDeleteQuantity = pToDelete.quantity;
+
+            updatedCart.products = updatedCart.products.filter(p => p.id !== productId);
+        
+            updatedCart.totalPrice = updatedCart.totalPrice - productPrice * pToDeleteQuantity;
+            console.log("3  ", updatedCart);
+            fs.writeFile(pathCartFile, JSON.stringify(updatedCart), err => {
                 if(err) console.log(err);
             });
         });
