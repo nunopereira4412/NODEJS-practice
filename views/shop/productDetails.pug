@@ -8,6 +8,6 @@ block mainContent
         h2 #{product.price}
         p #{product.description}
         form(action="/addToCart", method="POST")
-            button.btn(type="submit", name="productId", value=product.id) Add to cart
+            button.btn(type="submit", name="productId", value=product._id) Add to cart
 
 

@@ -20,9 +20,9 @@ block mainContent
                         
                         .card__actions
                             form.product-form(action="/addToCart" method="POST")
-                                a.btn(href="/products/" + product.id) Details
+                                a.btn(href="/products/" + product._id) Details
                                 .form-control
-                                    button.btn(type="submit", name="productId", value=product.id) Add to Cart
+                                    button.btn(type="submit", name="productId", value=product._id) Add to Cart
         else 
             h1 There are no products 
 
