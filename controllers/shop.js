@@ -99,13 +99,13 @@ exports.getProductDetails = (req, res, next) => {
 //     })
 // };
 
-exports.postAddToCart = (req, res, next) => {
-    const id = req.body.productId;
-    Product.getProductById(id, product => {
-        Cart.addProduct(id, product.price);
-    });
-    res.redirect("/cart");
-}; 
+// exports.postAddToCart = (req, res, next) => {
+//     const id = req.body.productId;
+//     Product.getProductById(id, product => {
+//         Cart.addProduct(id, product.price);
+//     });
+//     res.redirect("/cart");
+// }; 
 
 // exports.removeFromCart = (req, res, next) => {
 //     const productId = req.body.productId;

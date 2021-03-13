@@ -1,4 +1,4 @@
-const mongodb = require('mongodb');
+const ObjectId = require('mongodb').ObjectId;
 const path    = require('path');
 const rootDir = require('../util/path');
 const fs      = require('fs');
@@ -14,6 +14,7 @@ const getProductsFromDB = () => {
         .find()
         .toArray()
         .then(products => {
+            console.log("\n\nProducts: \n\n");
             console.log(products);
             return products;
         })
@@ -21,9 +22,8 @@ const getProductsFromDB = () => {
 }
 
 class Product {
-    constructor(title, imageURL, price, description) {
-    // constructor(id, title, imageURL, price, description) {
-        // this.id          = id;
+    constructor(title, imageURL, price, description, id) {
+        this._id         = id ? new ObjectId(id) : null;
         this.title       = title;
         this.imageURL    = imageURL;
         this.price       = price;
@@ -32,55 +32,35 @@ class Product {
 
     save() {
         const db = getDB();
-        return db
-            .collection("products")
-            .insertOne(this)
-            .then(res => {
-                console.log(res);
-                return res;
-            })
-            .catch(err => console.log(err));
+        if(!this._id)
+            return db
+                .collection("products")
+                .insertOne(this);
+        else 
+            return db
+                .collection("products")
+                .updateOne({_id: this._id}, {$set: this});
     }
 
-    // save() {
-    //     getProductsFromFile(products => {
-    //         if(this.id) {
-    //             const productIndexFromCart = products.findIndex(p => p.id === this.id);
-    //             const updatedProducts = [...products];
-    //             updatedProducts[productIndexFromCart] = this;
-    //             fs.writeFile(pathProductsFile, JSON.stringify(updatedProducts), err => {
-    //                 if(err) console.log(err);
-    //             });
-    //         } 
-    //         else {
-    //             this.id = Math.random().toFixed(2).toString();
-    //             products.push(this);
-    //             fs.writeFile(pathProductsFile, JSON.stringify(products), err => {
-    //                 if(err) console.log(err);
-    //             });
-    //         }
-    //     });
-    // }
-
-    // static deleteProductById(productId) {
-    //     getProductsFromFile(products => {
-    //         const p = products.find(p => p.id === productId);
-    //         const updatedProducts = products.filter(p => p.id !== productId);
-    //         fs.writeFile(pathProductsFile, JSON.stringify(updatedProducts), err => {
-    //             if(!err) Cart.deleteProduct(productId, p.price);
-    //         });
-    //     }); 
-    // }
+    static deleteProductById(id) {
+        const db = getDB();
+        return db
+            .collection("products")
+            .deleteOne({_id: new ObjectId(id)})
+            .then(res => console.log("Deleted"))
+            .catch(err => console.log(err));
+    }
 
     static getProductById(id) {
         const db = getDB();
         return db
             .collection("products")
-            .find({_id: new mongodb.ObjectId.createFromHexString(id)})
+            .find({_id: new ObjectId(id)})
             .next()
             .then(product => product)
             .catch(err => console.log(err));
     }
+    
     static getProducts() {
         return getProductsFromDB();
     }
