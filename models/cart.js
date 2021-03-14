@@ -63,14 +63,13 @@ module.exports = class Cart {
             if(err) return;
 
             let updatedCart = {...JSON.parse(fileContent)};
-            console.log("1  ", updatedCart);
             let pToDelete = updatedCart.products.find(p => p.id === productId);
             let pToDeleteQuantity = pToDelete.quantity;
 
             updatedCart.products = updatedCart.products.filter(p => p.id !== productId);
         
             updatedCart.totalPrice = updatedCart.totalPrice - productPrice * pToDeleteQuantity;
-            console.log("3  ", updatedCart);
+
             fs.writeFile(pathCartFile, JSON.stringify(updatedCart), err => {
                 if(err) console.log(err);
             });
@@ -86,7 +85,6 @@ module.exports = class Cart {
     }
 
     static saveCart(updatedCart) {
-        console.log(updatedCart);
         fs.writeFile(pathCartFile, JSON.stringify(updatedCart), err => {
             if(err) console.log(err);
         });

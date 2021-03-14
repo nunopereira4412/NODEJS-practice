@@ -1,6 +1,5 @@
 const Product = require('../models/product');
 
-
 exports.getAddProduct = (req, res, next) => {
     res.render("admin/editProduct", {
         pageTitle: "Add Product", 
@@ -10,7 +9,6 @@ exports.getAddProduct = (req, res, next) => {
         editing: false
     });
 };      
-
 
 exports.getEditProduct = (req, res, next) => {
     const editMode = req.query.editMode;
@@ -41,8 +39,15 @@ exports.postEditProduct = (req, res, next) => {
     const imageURL    = req.body.imageURL;
     const price       = Number.parseFloat(req.body.price);
     const description = req.body.description;
-    const product     = new Product(title, imageURL, price, description, id);
-    console.log("HHHH: ", product);
+    const product     = new Product(
+        title, 
+        imageURL, 
+        price, 
+        description, 
+        id, 
+        req.user._id
+    );
+
     product.save()
         .then(res => {
             console.log("Created product!");

@@ -7,27 +7,14 @@ const getDB   = require('../util/database').getDB;
 
 const pathProductsFile = path.join(rootDir, 'data', 'products.js');
 
-const getProductsFromDB = () => {
-    const db = getDB(); 
-    return db
-        .collection("products")
-        .find()
-        .toArray()
-        .then(products => {
-            console.log("\n\nProducts: \n\n");
-            console.log(products);
-            return products;
-        })
-        .catch(err => console.log(err));
-}
-
 class Product {
-    constructor(title, imageURL, price, description, id) {
-        this._id         = id ? new ObjectId(id) : null;
+    constructor(title, imageURL, price, description, id, userId) {
         this.title       = title;
         this.imageURL    = imageURL;
         this.price       = price;
         this.description = description;
+        this._id         = id ? new ObjectId(id) : null;
+        this.user        = userId;  
     }
 
     save() {
@@ -62,7 +49,17 @@ class Product {
     }
     
     static getProducts() {
-        return getProductsFromDB();
+        const db = getDB(); 
+        return db
+            .collection("products")
+            .find()
+            .toArray()
+            .then(products => {
+                console.log("\n\nProducts: \n\n");
+                console.log(products);
+                return products;
+            })
+            .catch(err => console.log(err));
     }
 };
 

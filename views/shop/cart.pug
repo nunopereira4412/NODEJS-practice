@@ -8,10 +8,10 @@ block mainContent
             ul
                 each product of cartProducts
                     li 
-                        p #{product.productData.title} (#{product.quantity})
+                        p #{product.title} (#{product.quantity})
                         form.product-form(action="/removeFromCart" method="POST")
                             .form-control
-                                button.btn(type="submit", name="productId", value=product.productData._id) Remove
+                                button.btn(type="submit", name="productId", value=product._id) Remove
 
         else 
             h1 There are no products in the Cart
