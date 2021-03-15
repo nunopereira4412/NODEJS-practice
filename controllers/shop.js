@@ -37,12 +37,13 @@ exports.getProductDetails = (req, res, next) => {
         });
 };
 
-// exports.getOrders = (req, res, next) => {
-//     res.render('shop/orders', {
-//         pageTitle: "Orders", 
-//         isOrdersActiveClass: true
-//     })
-// };
+exports.getOrders = (req, res, next) => {
+    res.render('shop/orders', {
+        pageTitle: "Orders", 
+        isOrdersActiveClass: true
+    })
+};
+
 // exports.getCheckout = (req, res, next) => {
 //     res.render('shop/checkout', {
 //         pageTitle: "Checkout", 
@@ -60,19 +61,13 @@ exports.postAddToCart = (req, res, next) => {
         res.redirect("/cart");
 }; 
 
-// exports.removeFromCart = (req, res, next) => {
-//     const productId = req.body.productId;
-//     Cart.getCart(cart => {
-//         const updatedProducts = cart.products.filter(p => p.id !== productId);
-//         const priceToSubtract = Product.getProductById(productId).price;
-//         const updatedCart = {
-//             products: updatedProducts,
-//             totalPrice
-//         };
-//         Cart.saveCart(updatedCart);
-//     });
-//     res.redirect("/cart");
-// }; 
+exports.removeFromCart = (req, res, next) => {
+    const productId = req.body.productId;
+    req.user.removeProductFromCart(productId)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+     res.redirect("/cart");
+}; 
 
 
 exports.getCart = (req, res, next) => {

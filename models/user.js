@@ -47,14 +47,19 @@ class User {
             );
     }
 
-    // getCart() {
-    //     const db = getDB();
-    //     return db
-    //         .collection("users")
-    //             .findOne({_id: new ObjectId(id)}) 
-    //             .then(user => user.cart)
-    //             .catch(err => console.log(err));
-    // }
+    removeProductFromCart(productId) {
+        const db              = getDB();
+        const updatedProducts = this.cart.items.filter(p => p._id.toString() !== productId.toString());
+        const updatedCart     = {
+            items: updatedProducts
+        };
+        return db
+            .collection("users")
+            .updateOne(
+                { _id: new ObjectId(this._id) },
+                { $set: { cart: updatedCart } }
+            );
+    }
 
     getCart() {
         const db = getDB();
