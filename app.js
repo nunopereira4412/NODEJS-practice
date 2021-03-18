@@ -5,7 +5,7 @@ const bodyParser      = require('body-parser');
 const adminRoutes     = require('./routes/admin');
 const shopRoutes      = require('./routes/shop');
 const errorController = require('./controllers/error');
-const mongoConnect    = require('./util/database').mongoConnect;
+const mongoose        = require('mongoose');
 
 const User            = require('./models/user');
 
@@ -35,7 +35,12 @@ app.use('/', shopRoutes.routes);
 
 app.use(errorController.get404);
 
-mongoConnect(() => {
-    app.listen(4000);
-});
+mongoose
+    .connect(
+        'mongodb://127.0.0.1:27017/shop?compclientsors=disabled&gssapiServiceName=mongodb', 
+        {useUnifiedTopology: true}
+    )
+    .then(res => app.listen(4000))
+    .catch(err => console.log(err));
+
 
