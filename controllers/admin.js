@@ -18,7 +18,7 @@ exports.getEditProduct = (req, res, next) => {
     
     const productId = req.params.productId;
     Product
-        .findById(new ObjectId(productId))
+        .findById(productId)
         .then(product => {
             if(product)
             res.render("admin/editProduct", {
@@ -44,8 +44,9 @@ exports.postEditProduct = (req, res, next) => {
     let successMsg           = "";
 
     Product
-        .findById(new ObjectId(productId))
+        .findById(productId)
         .then(product => {
+            console.log("IJHKBI: ", typeof productId);
             if(product) {
                 product.title       = updatedTitle;
                 product.imageURL    = updatedImageURL;
@@ -75,7 +76,7 @@ exports.postEditProduct = (req, res, next) => {
 exports.postDeleteProduct = (req, res, next) => {
     const productId = req.body.productId;
 
-    Product.deleteProductById(productId)
+    Product.findByIdAndDelete(productId)
         .then(() => {
             console.log("Product Deleted");
             res.redirect("/admin/products");

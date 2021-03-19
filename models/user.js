@@ -1,12 +1,32 @@
+const mongoose = require('mongoose');
 const ObjectId = require('mongodb').ObjectId;
 
-class User {
-    constructor(id, name, email, cart) {
-        this._id   = id;
-        this.name  = name;
-        this.email = email;
-        this.cart  = cart;
+const Schema   = mongoose.Schema;
+
+const userSchema = new Schema({
+    name: {
+        type:     String,
+        required: true
+    },
+    email: {
+        type:     String,
+        required: true
+    },
+    cart: {
+        items: [{
+            productId: {
+                type: Schema.Types.ObjectId,
+                required: true
+            },
+            quantity: {
+                type: Number,
+                required: true
+            }
+        }]
     }
+});
+
+module.exports = mongoose.model("User", userSchema);
 
     // save() {
     //     const db = getDB();
@@ -87,6 +107,3 @@ class User {
     //         .then(user => user)
     //         .catch(err => console.log(err));
     // }
-}
-
-module.exports = User;
