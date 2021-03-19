@@ -57,31 +57,39 @@ exports.getOrders = (req, res, next) => {
 
 exports.postAddToCart = (req, res, next) => {
     const productId = req.body.productId;
-    Product.getProductById(productId)
-        .then(product => {  
-            req.user.addToCart(product);
-        })
+    Product
+        .findById(productId)
+        .then(product => req.user.addToCart(product))
+        .then(result => {
+            console.log(result);
+            res.redirect("/cart");
+        }) 
         .catch(err => console.log(err));
-        res.redirect("/cart");
 }; 
 
 exports.removeFromCart = (req, res, next) => {
     const productId = req.body.productId;
-    req.user.removeProductFromCart(productId)
-        .then(res => console.log(res))
+    req.user
+        .removeFromCart(productId)
+        .then(result => {
+            console.log(result);
+            res.redirect("/cart");
+        })
         .catch(err => console.log(err));
-     res.redirect("/cart");
 }; 
 
 
 exports.getCart = (req, res, next) => {
-    req.user.getCart()
-        .then(cart => {
+    req.user
+        .populate("cart.items.productId")
+        .execPopulate()
+        .then(user => {
+            const items = user.cart.items;
             res.render('shop/cart', {
-                cartProducts: cart,
+                cartProducts: items,
                 pageTitle: "Cart", 
                 isCartActiveClass: true,
-                cartHasProducts: cart.length > 0
+                cartHasProducts: items.length > 0
             })
         }); 
 }

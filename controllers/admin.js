@@ -46,7 +46,6 @@ exports.postEditProduct = (req, res, next) => {
     Product
         .findById(productId)
         .then(product => {
-            console.log("IJHKBI: ", typeof productId);
             if(product) {
                 product.title       = updatedTitle;
                 product.imageURL    = updatedImageURL;
@@ -60,7 +59,8 @@ exports.postEditProduct = (req, res, next) => {
                     title:       updatedTitle,
                     imageURL:    updatedImageURL,
                     price:       updatedPrice,
-                    description: updatedDescription
+                    description: updatedDescription,
+                    userId:      req.user
                 });
                 successMsg = "Product Created!";
                 return product.save();
@@ -87,6 +87,8 @@ exports.postDeleteProduct = (req, res, next) => {
 exports.getProducts = (req, res, next) => {
     Product
         .find()
+        // .select("-title -price -description -imageURL")
+        .populate("userId")
         .then(products => {
             res.render('admin/productsList', {
                 products: products, 

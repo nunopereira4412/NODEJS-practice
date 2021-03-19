@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use((req, res, next) => {
     const user = User
-        .findById("6054bd851ff42c90eb0f201f")
+        .findById("6054f04858e29895e18df3d0")
         .then(user => {
             req.user = user;
             next();
