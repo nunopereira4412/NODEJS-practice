@@ -1,4 +1,5 @@
-const Product = require('../models/product');
+const ObjectId = require('mongodb').ObjectId;
+const Product  = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
     res.render("admin/editProduct", {
@@ -16,7 +17,8 @@ exports.getEditProduct = (req, res, next) => {
     if(!editMode) res.redirect("/");
     
     const productId = req.params.productId;
-    Product.getProductById(productId)
+    Product
+        .findById(new ObjectId(productId))
         .then(product => {
             if(product)
             res.render("admin/editProduct", {
@@ -34,27 +36,40 @@ exports.getEditProduct = (req, res, next) => {
 };    
 
 exports.postEditProduct = (req, res, next) => {
-    const id          = req.body.productId;
-    const title       = req.body.title; 
-    const imageURL    = req.body.imageURL;
-    const price       = Number.parseFloat(req.body.price);
-    const description = req.body.description;
-    const product     = new Product(
-        title, 
-        imageURL, 
-        price, 
-        description, 
-        id, 
-        req.user._id
-    );
+    const productId          = req.body.productId;
+    const updatedTitle       = req.body.title; 
+    const updatedImageURL    = req.body.imageURL;
+    const updatedPrice       = Number.parseFloat(req.body.price);
+    const updatedDescription = req.body.description;
+    let successMsg           = "";
 
-    product.save()
-        .then(res => {
-            console.log("Created product!");
-            console.log(res);
+    Product
+        .findById(new ObjectId(productId))
+        .then(product => {
+            if(product) {
+                product.title       = updatedTitle;
+                product.imageURL    = updatedImageURL;
+                product.price       = updatedPrice;
+                product.description = updatedDescription;
+                successMsg          = "Product Updated!";
+                return product.save();
+            }
+            else {
+                const product = new Product({
+                    title:       updatedTitle,
+                    imageURL:    updatedImageURL,
+                    price:       updatedPrice,
+                    description: updatedDescription
+                });
+                successMsg = "Product Created!";
+                return product.save();
+            }
         })
-        .catch(err => console.log(err));    
-    res.redirect("/admin/products");
+        .then(result => {
+            console.log(successMsg);
+            res.redirect("/admin/products");
+        })
+        .catch(err => console.log(err));
 }; 
 
 exports.postDeleteProduct = (req, res, next) => {
@@ -69,7 +84,8 @@ exports.postDeleteProduct = (req, res, next) => {
 }
 
 exports.getProducts = (req, res, next) => {
-    const products = Product.getProducts() 
+    Product
+        .find()
         .then(products => {
             res.render('admin/productsList', {
                 products: products, 

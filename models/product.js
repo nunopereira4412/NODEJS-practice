@@ -1,18 +1,38 @@
 const ObjectId = require('mongodb').ObjectId;
-const path    = require('path');
-const rootDir = require('../util/path');
+const mongoose = require('mongoose');
 
-const pathProductsFile = path.join(rootDir, 'data', 'products.js');
+const Schema = mongoose.Schema;
 
-class Product {
-    constructor(title, imageURL, price, description, id, userId) {
-        this.title       = title;
-        this.imageURL    = imageURL;
-        this.price       = price;
-        this.description = description;
-        this._id         = id ? new ObjectId(id) : null;
-        this.user        = userId;  
+const productSchema = new Schema({
+    title: {
+        type:     String,
+        required: true
+    },
+    imageURL: {
+        type:     String,
+        required: true
+    },
+    price: {
+        type:     String,
+        required: true
+    },
+    description: {
+        type:     String,
+        required: true
     }
+});
+
+module.exports = mongoose.model("Product", productSchema);
+
+// class Product {
+    // constructor(title, imageURL, price, description, id, userId) {
+    //     this.title       = title;
+    //     this.imageURL    = imageURL;
+    //     this.price       = price;
+    //     this.description = description;
+    //     this._id         = id ? new ObjectId(id) : null;
+    //     this.user        = userId;  
+    // }
 
     // save() {
     //     const db = getDB();
@@ -45,19 +65,17 @@ class Product {
     //         .catch(err => console.log(err));
     // }
     
-    // static getProducts() {
-    //     const db = getDB(); 
-    //     return db
-    //         .collection("products")
-    //         .find()
-    //         .toArray()
-    //         .then(products => {
-    //             console.log("\n\nProducts: \n\n");
-    //             console.log(products);
-    //             return products;
-    //         })
-    //         .catch(err => console.log(err));
-    // }
-};
-
-module.exports = Product;
+//     static getProducts() {
+//         const db = getDB(); 
+//         return db
+//             .collection("products")
+//             .find()
+//             .toArray()
+//             .then(products => {
+//                 console.log("\n\nProducts: \n\n");
+//                 console.log(products);
+//                 return products;
+//             })
+//             .catch(err => console.log(err));
+//     }
+// // };

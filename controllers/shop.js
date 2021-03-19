@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const ObjectId = require('mongodb').ObjectId;
 const Cart    = require('../models/cart');
 const User    = require('../models/user');
 
@@ -10,8 +11,10 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-    Product.getProducts()
+    Product
+        .find()
         .then(products => {
+            console.log(products);
             res.render('shop/productsList', {
                 products: products, 
                 pageTitle: "Products List", 
@@ -20,12 +23,13 @@ exports.getProducts = (req, res, next) => {
                 productCSS: false
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
 }
 
 exports.getProductDetails = (req, res, next) => {
     const productId = req.params.productId;
-    Product.getProductById(productId)
+    Product
+        .findById(new ObjectId(productId))
         .then(product => {
             if(product)
                 res.render("shop/productDetails", {
