@@ -1,5 +1,7 @@
 const Product = require('../models/product');
 
+const db      = require('../util/database');
+
 exports.getAddProduct = (req, res, next) => {
     res.render("admin/editProduct", {
         pageTitle: "Add Product", 
@@ -18,8 +20,11 @@ exports.postAddProduct = (req, res, next) => {
     const product = new Product(null, title, imageURL, price, description);
 
     //this can be in a callback for the redirect to happen after
-    product.save();
-    res.redirect("/admin/addProduct");
+
+    product
+        .save()
+        .then(() => res.redirect("/admin/addProduct"))
+        .catch(err => console.log(err));
 }; 
 
 exports.getEditProduct = (req, res, next) => {

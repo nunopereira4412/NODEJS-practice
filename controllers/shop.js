@@ -1,6 +1,8 @@
 const Product = require('../models/product');
 const Cart    = require('../models/cart');
 
+const db      = require('../util/database');
+
 exports.getIndex = (req, res, next) => {
     res.render('shop/index', {
         pageTitle: "Index", 
@@ -9,30 +11,32 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-    Product.getProducts(products => {
-        if(products)
+    Product.getProducts()
+        .then(([rows, fieldData]) => {
             res.render('shop/productsList', {
-                products: products, 
+                products: rows, 
                 pageTitle: "Products List", 
                 isProductsActiveClass: true,
-                hasProducts: products.length > 0,
+                hasProducts: rows.length > 0,
                 productCSS: false
             });
-        else res.render("errors/404");
-    });
+        })
+        .catch(err => console.log(err));
 };
 
 exports.getProductDetails = (req, res, next) => {
     const productId = req.params.productId;
-    Product.getProductById(productId, product => {
-        if(product)
+    Product
+        .getProductById(productId)
+        .then(([product]) => {
+            console.log(product[0]);
             res.render("shop/productDetails", {
-                product: product,
+                product: product[0],
                 pageTitle: "Product Details",
                 isProductsActiveClass: true
             })
-        else res.render("errors/404");
-    });
+        })
+        .catch(err => console.log(err));
 };
 
 exports.getCart = (req, res, next) => {
